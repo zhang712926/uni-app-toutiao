@@ -1,0 +1,82 @@
+<template>
+	<header class="home-header" :style="{height: statusBarHeight + 44 + 'wx'}">
+		<!-- 状态栏 -->
+		<div class="status-bar" :style="{height: statusBarHeight + 'wx'}"></div>
+		<!-- 导航栏 -->
+		<div class="search-bar">
+			<text class="iconfont icon-search">&#xe65c;</text>
+			<input type="text" class="input-box" placeholder="学习编程,找米修在线">
+		</div>
+	</header>
+</template>
+
+<script>
+	export default {
+		data(){
+			return {
+				statusBarHeight: ""
+			}
+		},
+		mounted(){
+			this.init();
+		},
+		methods:{
+			init(){
+				uni.getSystemInfo({
+					success: (res => {
+						console.log(res.statusBarHeight);
+						this.statusBarHeight = res.statusBarHeight;
+					})
+				})
+			}
+		},
+		created(){
+			var domModule = weex.requireModule('dom');
+			domModule.addRule('fontFace', {
+			  'fontFamily': "msiconfont",
+			  'src': "url('https://at.alicdn.com/t/font_1340143_3lui4x98vmv.ttf')"
+			})
+		}
+	}
+</script>
+
+<style>
+	/* 
+	注意：在nvue中
+只能使用类选择器，并且不能组合嵌套
+只能使用flex布局，默认全部容器均为 display: flex; flex-direction: column;
+weex编译模式下：使用px单位; uni-app编译模式下：使用upx单位
+ */
+
+	.home-header {
+		background-color: #d43d3d;
+		padding: 0 50upx;
+	}
+
+	.search-bar {
+		flex-direction: row;
+		width: 650upx;
+		background-color: #fff;
+		align-items: center;
+		height: 40px;
+		padding: 0 25upx;
+		border-radius: 4px;
+		color: #505050;
+	}
+
+	.icon-search {
+		width: 60upx;
+	}
+
+	.input-box {
+		width: 500upx;
+		height: 40px;
+		font-size: 14px;
+	}
+	
+	.iconfont{
+		font-family: msiconfont;
+		font-size: 16px;
+		font-style: normal;
+	}
+</style>
